@@ -22,6 +22,42 @@ def printWin(newBoard):
     run = False
     quit()
 
+# Check win
+def checkWin(newBoard):
+    # Checking if anyone has won
+    tlCheckingChar = newBoard[0][0]
+    drCheckingChar = newBoard[2][2]
+    mmCheckingChar = newBoard[1][1]
+    for row in newBoard:
+        for i in row:
+            if(tlCheckingChar != " "):
+                # All wins from TL (Top Left) Position
+                # TL to TR
+                if(newBoard[0][1] == tlCheckingChar and newBoard[0][2] == tlCheckingChar):
+                    printWin(newBoard)
+                # TL to DL
+                elif(newBoard[1][0] == tlCheckingChar and newBoard[2][0] == tlCheckingChar):
+                    printWin(newBoard)
+                
+                # Left to right diag
+                # TL to DR
+                elif(newBoard[1][1] == tlCheckingChar and newBoard[2][2] == tlCheckingChar):
+                    printWin(newBoard)
+            if(drCheckingChar != " "):    
+                # All wins from DR (Down Right)
+                # DR to TR
+                if(newBoard[1][2] == drCheckingChar and newBoard[0][2] == drCheckingChar):
+                    printWin(newBoard)
+                # DR to DL
+                elif(newBoard[2][1] == drCheckingChar and newBoard[2][0] == drCheckingChar):
+                    printWin(newBoard)
+            if(mmCheckingChar != " "):
+                # Up, down and left, right wins
+                if(newBoard[0][1] == mmCheckingChar and newBoard[2][1] == mmCheckingChar):
+                    printWin(newBoard)
+                elif(newBoard[1][0] == mmCheckingChar and newBoard[1][2]== mmCheckingChar):
+                    printWin(newBoard)
+
 # Render Board
 def renderBoard():
     global run
@@ -38,39 +74,7 @@ def renderBoard():
             elif(board[row][j]["o"] == 1):
                 newBoard[row][j] = "o"
 
-    # Checking if anyone has won
-    tlCheckingChar = newBoard[0][0]
-    drCheckingChar = newBoard[2][2]
-    mmCheckingChar = newBoard[1][1]
-    for row in newBoard:
-        for i in row:
-            if(tlCheckingChar != " " and drCheckingChar != " " and mmCheckingChar != " "):
-                # All wins from TL (Top Left) Position
-                # TL to TR
-                if(newBoard[0][1] == tlCheckingChar and newBoard[0][2] == tlCheckingChar):
-                    printWin(newBoard)
-                # TL to DL
-                elif(newBoard[1][0] == tlCheckingChar and newBoard[2][0] == tlCheckingChar):
-                    printWin(newBoard)
-                
-                # Left to right diag
-                # TL to DR
-                elif(newBoard[1][1] == tlCheckingChar and newBoard[2][2] == tlCheckingChar):
-                    printWin(newBoard)
-
-                # All wins from DR (Down Right)
-                # DR to TR
-                elif(newBoard[1][2] == drCheckingChar and newBoard[0][2] == drCheckingChar):
-                    printWin(newBoard)
-                # DR to DL
-                elif(newBoard[2][1] == drCheckingChar and newBoard[2][0] == drCheckingChar):
-                    printWin(newBoard)
-
-                # Up, down and left, right wins
-                elif(newBoard[0][1] == mmCheckingChar and newBoard[2][1] == mmCheckingChar):
-                    printWin(newBoard)
-                elif(newBoard[1][0] == mmCheckingChar and newBoard[1][2]== mmCheckingChar):
-                    printWin(newBoard)
+    checkWin(newBoard)
 
     # Checking if board is full in which case end the game
     fullCheck = 0
