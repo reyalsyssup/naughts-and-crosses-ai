@@ -112,13 +112,17 @@ def updateBoard(playerSymbol, loc):
         player = player%2+1
 
 print(f"{Fore.MAGENTA}Player 1: x\nPlayer 2: 0\n")
+playWithAI = True
 while run:
     renderBoard()
-    print(f"{Fore.MAGENTA}Player {player}, where do you go? x y > ", end="")
-    loc = input()
-    if(loc == "exit"):
-        run = False
-        quit()
-    loc = list(loc.split(" "))
-    updateBoard(player, loc)
+    if(playWithAI and player == 1):
+        print(f"{Fore.MAGENTA}Player {player}, where do you go? x y > ", end="")
+        loc = input()
+        if(loc == "exit"):
+            run = False
+            quit()
+        loc = list(loc.split(" "))
+        updateBoard(player, loc)
+    elif(playWithAI and player == 2):
+        updateBoard(player, ai.move(board))
     player = player%2+1
