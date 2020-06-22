@@ -12,6 +12,7 @@ board = [
 
 run = True
 player = 1
+useEnemyAI = False
 
 # Print Win Screen
 def printWin(newBoard):
@@ -119,29 +120,47 @@ def updateBoard(playerSymbol, loc):
         # Make sure the player doesnt change
         player = player%2+1
 
-def quitOnFullCheck():
+def useEnemyAIPrompt():
+    global useEnemyAI
+    print(f"{Fore.RED}Play with AI? y/n > ", end="")
+    useEnemyAI = input()
+    if(useEnemyAI == "y"): useEnemyAI = True
+
+def restartOnFullCheck():
+    global board
+    global player
+    global useEnemyAI
     # If the board is full there's no point in continuing, just quit the app
     if(fullCheck(fillBoard()) == True):
         renderBoard()
-        print(f"{Fore.YELLOW}No Winner!")
-        quit()
+        print(f"{Fore.YELLOW}No Winner!\nRestart? y/n > ", end="")
+        restart = input()
+        if(restart == "y"):
+            board = [
+                [{"x": 0, "o": 0},{"x": 0, "o": 0},{"x": 0, "o": 0}],
+                [{"x": 0, "o": 0},{"x": 0, "o": 0},{"x": 0, "o": 0}],
+                [{"x": 0, "o": 0},{"x": 0, "o": 0},{"x": 0, "o": 0}]
+            ]
+            player = 1
+            useEnemyAIPrompt()
+        else:
+            quit()
 
-print(f"{Fore.RED}Play with AI? y/n > ", end="")
-useEnemyAI = input()
-if(useEnemyAI == "y"): useEnemyAI = True
-print(f"{Fore.MAGENTA}Player 1: x\nPlayer 2: 0\n")
-while run:
-    quitOnFullCheck()
-    renderBoard()
-    print(f"{Fore.MAGENTA}Player {player}, where do you go? x y > ", end="")
-    loc = input()
-    if(loc == "exit"):
-        run = False
-        quit()
-    loc = list(loc.split(" "))
-    updateBoard(player, loc)
-    player = player%2+1
-    quitOnFullCheck()
-    if(useEnemyAI == True and player == 2):
-        updateBoard(player, ai.move(board))
-        player = player%2+1
+if(__name__ == "__main__"):
+        useEnemyAIPrompt()
+        print(f"{Fore.MAGENTA}Player 1: x\nPlayer 2: 0\n")
+        while run:
+            restartOnFullCheck()
+            renderBoard()
+            print(f"{Fore.MAGENTA}Player {player}, where do you go? x y > ", end="")
+            loc = input()
+            if(loc == "exit"):
+                run = False
+                quit()
+            loc = list(loc.split(" "))
+            updateBoard(player, loc)
+            player = player%2+1
+            restartOnFullCheck()
+            if(useEnemyAI == True and player == 2):
+                updateBoard(player, ai.move(board))
+                player = player%2+1
