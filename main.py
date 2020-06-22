@@ -28,17 +28,16 @@ def checkWin(newBoard):
     tlCheckingChar = newBoard[0][0]
     drCheckingChar = newBoard[2][2]
     mmCheckingChar = newBoard[1][1]
+    trCheckingChar = newBoard[0][2]
     for row in newBoard:
         for i in row:
             if(tlCheckingChar != " "):
-                # All wins from TL (Top Left) Position
                 # TL to TR
                 if(newBoard[0][1] == tlCheckingChar and newBoard[0][2] == tlCheckingChar):
                     printWin(newBoard)
                 # TL to DL
                 elif(newBoard[1][0] == tlCheckingChar and newBoard[2][0] == tlCheckingChar):
                     printWin(newBoard)
-                
                 # Left to right diag
                 # TL to DR
                 elif(newBoard[1][1] == tlCheckingChar and newBoard[2][2] == tlCheckingChar):
@@ -56,6 +55,10 @@ def checkWin(newBoard):
                 if(newBoard[0][1] == mmCheckingChar and newBoard[2][1] == mmCheckingChar):
                     printWin(newBoard)
                 elif(newBoard[1][0] == mmCheckingChar and newBoard[1][2]== mmCheckingChar):
+                    printWin(newBoard)
+            if(trCheckingChar != " "):
+                # TR to DL
+                if(newBoard[1][1] == trCheckingChar and newBoard[2][0] == trCheckingChar):
                     printWin(newBoard)
 
 # Render Board
@@ -98,7 +101,7 @@ def updateBoard(playerSymbol, loc):
     except:
         print(f"{Fore.RED}Invalid Input")
         player = player%2+1
-        return
+        return False
     boardLoc = board[loc[0]][loc[1]]
     # Checks if player 1/2 is playing and making sure there isnt already a mark in their desired spot
     if playerSymbol == 1 and (boardLoc["x"] == 0 and boardLoc["o"] == 0):
@@ -111,18 +114,20 @@ def updateBoard(playerSymbol, loc):
         # Make sure the player doesnt change
         player = player%2+1
 
+print(f"{Fore.RED}Play with AI? y/n > ", end="")
+useEnemyAI = input()
+if(useEnemyAI == "y"): useEnemyAI = True
 print(f"{Fore.MAGENTA}Player 1: x\nPlayer 2: 0\n")
-playWithAI = True
 while run:
     renderBoard()
-    if(playWithAI and player == 1):
-        print(f"{Fore.MAGENTA}Player {player}, where do you go? x y > ", end="")
-        loc = input()
-        if(loc == "exit"):
-            run = False
-            quit()
-        loc = list(loc.split(" "))
-        updateBoard(player, loc)
-    elif(playWithAI and player == 2):
-        updateBoard(player, ai.move(board))
+    print(f"{Fore.MAGENTA}Player {player}, where do you go? x y > ", end="")
+    loc = input()
+    if(loc == "exit"):
+        run = False
+        quit()
+    loc = list(loc.split(" "))
+    updateBoard(player, loc)
     player = player%2+1
+    if(useEnemyAI == True and player == 2):
+        updateBoard(player, ai.move(board))
+        player = player%2+1
