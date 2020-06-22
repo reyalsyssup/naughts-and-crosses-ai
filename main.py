@@ -61,9 +61,16 @@ def checkWin(newBoard):
                 if(newBoard[1][1] == trCheckingChar and newBoard[2][0] == trCheckingChar):
                     printWin(newBoard)
 
-# Render Board
-def renderBoard():
-    global run
+# Check if board is full
+def fullCheck(newBoard):
+    fullCounter = 0
+    for row in newBoard:
+        for i in row:
+            if(i != ' '): fullCounter += 1
+    if(fullCounter == 9): return True
+    else: return False
+
+def fillBoard():
     newBoard = [
         [" ", " ", " "],
         [" ", " ", " "],
@@ -72,22 +79,20 @@ def renderBoard():
     # fills board
     for row in range(3):
         for j in range(3):
-            if(board[row][j]["x"] == 1):
-                newBoard[row][j] = "x"
-            elif(board[row][j]["o"] == 1):
-                newBoard[row][j] = "o"
+            if(board[row][j]["x"] == 1): newBoard[row][j] = "x"
+            elif(board[row][j]["o"] == 1): newBoard[row][j] = "o"
+            else: newBoard[row][j] = " "
+    return newBoard
+
+# Render Board
+def renderBoard():
+    global run
+    newBoard = fillBoard()
 
     checkWin(newBoard)
 
     # Checking if board is full in which case end the game
-    fullCheck = 0
-    for row in newBoard:
-        for i in row:
-            if(i != " "): fullCheck += 1
-    if(fullCheck == 9):
-        print(f"{Fore.YELLOW}No Winner!")
-        run = False
-        quit()
+    fullCheck(newBoard)
 
     # prints board
     print(Fore.YELLOW + str(newBoard[0]))
@@ -114,11 +119,19 @@ def updateBoard(playerSymbol, loc):
         # Make sure the player doesnt change
         player = player%2+1
 
+def quitOnFullCheck():
+    # If the board is full there's no point in continuing, just quit the app
+    if(fullCheck(fillBoard()) == True):
+        renderBoard()
+        print(f"{Fore.YELLOW}No Winner!")
+        quit()
+
 print(f"{Fore.RED}Play with AI? y/n > ", end="")
 useEnemyAI = input()
 if(useEnemyAI == "y"): useEnemyAI = True
 print(f"{Fore.MAGENTA}Player 1: x\nPlayer 2: 0\n")
 while run:
+    quitOnFullCheck()
     renderBoard()
     print(f"{Fore.MAGENTA}Player {player}, where do you go? x y > ", end="")
     loc = input()
@@ -128,6 +141,7 @@ while run:
     loc = list(loc.split(" "))
     updateBoard(player, loc)
     player = player%2+1
+    quitOnFullCheck()
     if(useEnemyAI == True and player == 2):
         updateBoard(player, ai.move(board))
         player = player%2+1
