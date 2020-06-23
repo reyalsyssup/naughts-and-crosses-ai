@@ -6,63 +6,63 @@ def findEmptySpace(board):
 
 def move(board):
     # # # CORNERS # # #
-    # TL cases
+    # TL cases APPEARS OK
     if((board[0][0]["x"] == 0 and board[0][0]["o"] == 0) and ((board[0][1]["o"] == 1 and board[0][2]["o"] == 1) or (board[1][1]["o"] == 1 and board[2][2]["o"] == 1) or (board[2][0]["o"] == 1 and board[1][0]["o"] == 1))):
         return [0, 0]
-    # TR cases
+    # TR cases APPEARS OK
     elif((board[0][2]["x"] == 0 and board[0][2]["o"] == 0) and ((board[0][1]["o"] == 1 and board[0][0]["o"] == 1) or (board[2][0]["o"] == 1 and board[1][1]["o"] == 1) or (board[2][2]["o"] == 1 and board[1][2]["o"] == 1))):
         return [0, 2]
-    # BR cases
+    # BR cases APPEARS OK
     elif((board[2][2]["x"] == 0 and board[2][2]["o"] == 0) and ((board[1][2]["o"] == 1 and board[0][2]["o"] == 1) or (board[0][0]["o"] == 1 and board[1][1]["o"] == 1) or (board[2][0]["o"] == 1 and board[2][1]["o"] == 1))):
         return [2, 2]
-    # BL cases
+    # BL cases APPEARS OK
     elif((board[2][0]["x"] == 0 and board[2][0]["o"] == 0) and ((board[2][1]["o"] == 1 and board[2][2]["o"] == 1) or (board[1][0]["o"] == 1 and board[0][0]["o"] == 1) or (board[0][2]["o"] == 1 and board[1][1]["o"] == 1))):
         return [2, 0]
     # # # CENTRE EDGES # # #
-    # TM edge
+    # TM edge APPEARS OK
     elif((board[0][1]["x"] == 0 and board[0][1]["o"] == 0) and ((board[0][0]["o"] == 1 and board[0][2]["o"] == 1) or (board[1][1]["o"] == 1 and board[2][1]["o"] == 1))):
         return [0, 1]
-    # LM edge
+    # LM edge APPEARS OK
     elif((board[1][0]["x"] == 0 and board[1][0]["o"] == 0) and ((board[0][0]["o"] == 1 and board[2][0]["o"] == 1) or (board[1][1]["o"] == 1 and board[1][2]["o"] == 1))):
         return [1, 0]
-    # BM edge
-    elif((board[2][1]["x"] == 0 and board[2][1]["o"] == 0) and ((board[2][0]["o"] == 1 and board[2][2]["o"] == 1) or (board[1][1]["o"] == 1 and board[2][1]["o"] == 1))):
+    # BM edge CHANGED LAST CASE FIRST PART FROM [2][1] TO [0][1]
+    elif((board[2][1]["x"] == 0 and board[2][1]["o"] == 0) and ((board[2][0]["o"] == 1 and board[2][2]["o"] == 1) or (board[1][1]["o"] == 1 and board[0][1]["o"] == 1))):
         return [2, 1]
-    # RM edge
+    # RM edge APPEARS OK
     elif((board[1][2]["x"] == 0 and board[1][2]["o"] == 0) and ((board[0][2]["o"] == 1 and board[2][2]["o"] == 1) or (board[1][0]["o"] == 1 and board[1][1]["o"] == 1))):
         return [1, 2]
-    # # # DEAD CENTRE # # #
-    elif((board[1][1]["x"] == 0 and board[1][1]["o"] == 0) and ((board[1][1]["o"] == 1 and board[2][1]["o"] == 1) or (board[1][0]["o"] == 1 and board[1][2]["o"] == 1) or (board[0][0]["o"] == 1 and board[2][2]["o"] == 1) or (board[0][2]["o"] == 1 and board[2][0]["o"] == 1))):
+    # # # DEAD CENTRE # # # CHANGED FIRST CHECK FIRST PART FROM [1][1] TO [0][1]
+    elif((board[1][1]["x"] == 0 and board[1][1]["o"] == 0) and ((board[0][1]["o"] == 1 and board[2][1]["o"] == 1) or (board[1][0]["o"] == 1 and board[1][2]["o"] == 1) or (board[0][0]["o"] == 1 and board[2][2]["o"] == 1) or (board[0][2]["o"] == 1 and board[2][0]["o"] == 1))):
         return [1, 1]
     else:
         # # # # # # # # # # # # # # BLOCKING PLAYER WIN # # # # # # # # # # # # # # # # #
-        # TL cases
+        # TL cases APPEAR FINE
         if((board[0][0]["x"] == 0 and board[0][0]["o"] == 0) and ((board[0][1]["x"] == 1 and board[0][2]["x"] == 1) or (board[1][1]["x"] == 1 and board[2][2]["x"] == 1) or (board[2][0]["x"] == 1 and board[1][0]["x"] == 1))):
             return [0, 0]
-        # TR cases
+        # TR cases APPEAR FINE
         elif((board[0][2]["x"] == 0 and board[0][2]["o"] == 0) and ((board[0][1]["x"] == 1 and board[0][0]["x"] == 1) or (board[2][0]["x"] == 1 and board[1][1]["x"] == 1) or (board[2][2]["x"] == 1 and board[1][2]["x"] == 1))):
             return [0, 2]
-        # BR cases
+        # BR cases APPEAR FINE
         elif((board[2][2]["x"] == 0 and board[2][2]["o"] == 0) and ((board[1][2]["x"] == 1 and board[0][2]["x"] == 1) or (board[0][0]["x"] == 1 and board[1][1]["x"] == 1) or (board[2][0]["x"] == 1 and board[2][1]["x"] == 1))):
             return [2, 2]
-        # BL cases
+        # BL cases APPEAR FINE
         elif((board[2][0]["x"] == 0 and board[2][0]["o"] == 0) and ((board[2][1]["x"] == 1 and board[2][2]["x"] == 1) or (board[1][0]["x"] == 1 and board[0][0]["x"] == 1) or (board[0][2]["x"] == 1 and board[1][1]["x"] == 1))):
             return [2, 0]
         # # # CENTRE EDGES # # #
-        # TM edge
+        # TM edge APPEAR FINE
         elif((board[0][1]["x"] == 0 and board[0][1]["o"] == 0) and ((board[0][0]["x"] == 1 and board[0][2]["x"] == 1) or (board[1][1]["x"] == 1 and board[2][1]["x"] == 1))):
             return [0, 1]
-        # LM edge
+        # LM edge APPEAR FINE
         elif((board[1][0]["x"] == 0 and board[1][0]["o"] == 0) and ((board[0][0]["x"] == 1 and board[2][0]["x"] == 1) or (board[1][1]["x"] == 1 and board[1][2]["x"] == 1))):
             return [1, 0]
-        # BM edge
-        elif((board[2][1]["x"] == 0 and board[2][1]["o"] == 0) and ((board[2][0]["x"] == 1 and board[2][2]["x"] == 1) or (board[1][1]["x"] == 1 and board[2][1]["x"] == 1))):
+        # BM edge FINAL CHECK: EDITED, INCORRECT BOARD[X][Y] ON SECOND CHECK
+        elif((board[2][1]["x"] == 0 and board[2][1]["o"] == 0) and ((board[2][0]["x"] == 1 and board[2][2]["x"] == 1) or (board[1][1]["x"] == 1 and board[0][1]["x"] == 1))):
             return [2, 1]
-        # RM edge
+        # RM edge APPEAR FINE
         elif((board[1][2]["x"] == 0 and board[1][2]["o"] == 0) and ((board[0][2]["x"] == 1 and board[2][2]["x"] == 1) or (board[1][0]["x"] == 1 and board[1][1]["x"] == 1))):
             return [1, 2]
-        # # # DEAD CENTRE # # #
-        elif((board[1][1]["x"] == 0 and board[1][1]["o"] == 0) and ((board[1][1]["x"] == 1 and board[2][1]["x"] == 1) or (board[1][0]["x"] == 1 and board[1][2]["x"] == 1) or (board[0][0]["x"] == 1 and board[2][2]["x"] == 1) or (board[0][2]["x"] == 1 and board[2][0]["x"] == 1))):
+        # # # DEAD CENTRE # # # EDITED FIRST CHECK, FIRST PART: CHANGED BOARD[1][1] TO BOARD[0][1]
+        elif((board[1][1]["x"] == 0 and board[1][1]["o"] == 0) and ((board[0][1]["x"] == 1 and board[2][1]["x"] == 1) or (board[1][0]["x"] == 1 and board[1][2]["x"] == 1) or (board[0][0]["x"] == 1 and board[2][2]["x"] == 1) or (board[0][2]["x"] == 1 and board[2][0]["x"] == 1))):
             return [1, 1]
         else:
             return findEmptySpace(board)
