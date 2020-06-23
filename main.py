@@ -15,16 +15,16 @@ player = 1
 useEnemyAI = False
 
 # Print Win Screen
-def printWin(newBoard):
+def printWin(newBoard, playerNum):
     print(Fore.YELLOW + str(newBoard[0]))
     print(Fore.YELLOW + str(newBoard[1]))
     print(Fore.YELLOW + str(newBoard[2]))
-    print(f"{Fore.GREEN}We have a winner, congratulations player {player%2+1}!")
+    print(f"{Fore.GREEN}We have a winner, congratulations player {playerNum}!")
     run = False
     quit()
 
 # Check win
-def checkWin(newBoard):
+def checkWin(newBoard, playerNum):
     # Checking if anyone has won
     tlCheckingChar = newBoard[0][0]
     drCheckingChar = newBoard[2][2]
@@ -35,32 +35,32 @@ def checkWin(newBoard):
             if(tlCheckingChar != " "):
                 # TL to TR
                 if(newBoard[0][1] == tlCheckingChar and newBoard[0][2] == tlCheckingChar):
-                    printWin(newBoard)
+                    printWin(newBoard, playerNum)
                 # TL to DL
                 elif(newBoard[1][0] == tlCheckingChar and newBoard[2][0] == tlCheckingChar):
-                    printWin(newBoard)
+                    printWin(newBoard, playerNum)
                 # Left to right diag
                 # TL to DR
                 elif(newBoard[1][1] == tlCheckingChar and newBoard[2][2] == tlCheckingChar):
-                    printWin(newBoard)
+                    printWin(newBoard, playerNum)
             if(drCheckingChar != " "):    
                 # All wins from DR (Down Right)
                 # DR to TR
                 if(newBoard[1][2] == drCheckingChar and newBoard[0][2] == drCheckingChar):
-                    printWin(newBoard)
+                    printWin(newBoard, playerNum)
                 # DR to DL
                 elif(newBoard[2][1] == drCheckingChar and newBoard[2][0] == drCheckingChar):
-                    printWin(newBoard)
+                    printWin(newBoard, playerNum)
             if(mmCheckingChar != " "):
                 # Up, down and left, right wins
                 if(newBoard[0][1] == mmCheckingChar and newBoard[2][1] == mmCheckingChar):
-                    printWin(newBoard)
+                    printWin(newBoard, playerNum)
                 elif(newBoard[1][0] == mmCheckingChar and newBoard[1][2]== mmCheckingChar):
-                    printWin(newBoard)
+                    printWin(newBoard, playerNum)
             if(trCheckingChar != " "):
                 # TR to DL
                 if(newBoard[1][1] == trCheckingChar and newBoard[2][0] == trCheckingChar):
-                    printWin(newBoard)
+                    printWin(newBoard, playerNum)
 
 # Check if board is full
 def fullCheck(newBoard):
@@ -89,8 +89,6 @@ def fillBoard():
 def renderBoard():
     global run
     newBoard = fillBoard()
-
-    checkWin(newBoard)
 
     # Checking if board is full in which case end the game
     fullCheck(newBoard)
@@ -147,20 +145,21 @@ def restartOnFullCheck():
             quit()
 
 if(__name__ == "__main__"):
-        useEnemyAIPrompt()
-        print(f"{Fore.MAGENTA}Player 1: x\nPlayer 2: 0\n")
-        while run:
-            restartOnFullCheck()
-            renderBoard()
-            print(f"{Fore.MAGENTA}Player {player}, where do you go? x y > ", end="")
-            loc = input()
-            if(loc == "exit"):
-                run = False
-                quit()
-            loc = list(loc.split(" "))
-            updateBoard(player, loc)
+    useEnemyAIPrompt()
+    print(f"{Fore.MAGENTA}Player 1: x\nPlayer 2: 0\n")
+    while run:
+        restartOnFullCheck()
+        renderBoard()
+        print(f"{Fore.MAGENTA}Player {player}, where do you go? x y > ", end=""); loc = input()
+        if(loc == "exit"):
+            run = False
+            quit()
+        loc = list(loc.split(" "))
+        updateBoard(player, loc)
+        checkWin(fillBoard(), player)
+        player = player%2+1
+        restartOnFullCheck()
+        if(useEnemyAI == True and player == 2):
+            updateBoard(player, ai.move(board))
             player = player%2+1
-            restartOnFullCheck()
-            if(useEnemyAI == True and player == 2):
-                updateBoard(player, ai.move(board))
-                player = player%2+1
+            checkWin(fillBoard(), 2)
