@@ -150,7 +150,7 @@ if(__name__ == "__main__"):
     while run:
         restartOnFullCheck()
         renderBoard()
-        print(f"{Fore.MAGENTA}Player {player}, where do you go? x y > ", end=""); loc = input()
+        print(f"{Fore.MAGENTA}Player {player}, where do you go? y x > ", end=""); loc = input()
         if(loc == "exit"):
             run = False
             quit()
