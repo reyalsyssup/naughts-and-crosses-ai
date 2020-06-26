@@ -2,6 +2,9 @@
 <h3>Features:</h3>
 This bot is fully capable of 2 player, and 1 player vs ai.
 
+<h3>Disclaimer:</h3>
+This isn't an actual artificial intelligence. This simply a basic bot that will win and block player wins. Nothing more
+
 <h3>Usage:</h3>
 Run the python file in your console or run the provided main.exe file
 When the program runs, you will be greeted with this: <br />
