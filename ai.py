@@ -1,8 +1,11 @@
+import random
 def findEmptySpace(board):
+    emptySpaces = []
     for row in range(3):
         for i in range(3):
             if(board[row][i]["x"] == 0 and board[row][i]["o"] == 0):
-                return [row, i]
+                emptySpaces.append([row, i])
+    return [emptySpaces[random.randint(0, len(emptySpaces))]][0]
 
 def move(board):
     # # # CORNERS # # #
